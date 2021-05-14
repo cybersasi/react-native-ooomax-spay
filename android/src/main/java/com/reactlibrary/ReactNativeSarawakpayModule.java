@@ -2,10 +2,15 @@
 
 package com.reactlibrary;
 
+import android.content.pm.PackageManager;
+import android.content.Intent;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
+
 
 import sharepay.paylibrary.BaseCallbackBean;
 import sharepay.paylibrary.SarawakAPI;
@@ -18,6 +23,7 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
 
     private final ReactApplicationContext reactContext;
     private SarawakAPI mFactory;
+    Promise promise;
 
     public ReactNativeSarawakpayModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -30,16 +36,16 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
         return "ReactNativeSarawakpay";
     }
 
+    @Override
+    public void payResult(BaseCallbackBean baseCallbackBean) {
+        //其中baseCallbackBean封装了相应的请求信息
+        baseCallbackBean.getFlag();
+    }
+
     @ReactMethod
     public void sampleMethod(String stringArgument, int numberArgument, Callback callback) {
         // TODO: Implement some actually useful functionality
         callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
-    }
-
-    @ReactMethod
-    public void testMethod(Callback callback) {
-        // TODO: Implement some actually useful functionality
-        callback.invoke("Hi pig");
     }
 
     @ReactMethod
@@ -49,10 +55,16 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
         String packageName = reactContext.getPackageName();
         Log.d("pkgName", "Cannot resolve info for" + packageName);
     }
+
+    @ReactMethod
+	public void isPackageInstalled(String packageName, final Promise promise) {
+		Intent sendIntent = this.reactContext.getPackageManager().getLaunchIntentForPackage(packageName);
+		if (sendIntent == null) {
+			promise.resolve(false);
+			return;
+		}
+		promise.resolve(true);
+	}
     
-    @Override
-    public void payResult(BaseCallbackBean baseCallbackBean) {
-        //其中baseCallbackBean封装了相应的请求信息
-        baseCallbackBean.getFlag();
-    }
+
 }
