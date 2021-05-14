@@ -2,16 +2,11 @@
 
 ## Getting started
 
-`$ npm install react-native-sarawakpay --save`
+`$ npm install react-native-ooomax-spay --save`
 
 ### Mostly automatic installation
 
-`$ react-native link react-native-sarawakpay`
+`$ react-native link react-native-ooomax-spay`
 
 ## Usage
-```javascript
-import ReactNativeSarawakpay from 'react-native-sarawakpay';
 
-// TODO: What to do with the module?
-ReactNativeSarawakpay;
-```
