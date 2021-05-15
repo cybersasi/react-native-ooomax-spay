@@ -7,7 +7,6 @@ export default ReactNativeSarawakpay;
 
 export const OpenSPay = async (orderEncryptedString, pkgName = 'bereach') => {
     if(Platform.OS === 'android'){
-        console.log('run Android')
         const isInstalledAndroid = await ReactNativeSarawakpay.isPackageInstalled("my.gov.sarawak.paybills")
         if(!isInstalledAndroid){
             // ask user to go download app 
