@@ -30,10 +30,10 @@ export default class App extends Component<{}> {
 
   onPress = () => {
 
-    // OpenSPay(orderEncryptedString)
-    ReactNativeSarawakpayModule.test(res => {
-      console.log(res)
-    })
+    OpenSPay(orderEncryptedString)
+    // ReactNativeSarawakpayModule.test(res => {
+    //   console.log(res)
+    // })
   }
 
   render() {

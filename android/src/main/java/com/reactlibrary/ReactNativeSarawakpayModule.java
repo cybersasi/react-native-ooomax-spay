@@ -28,11 +28,13 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     private SarawakAPI mFactory;
     private IPayAidlInterface mIPayAidlInterface;
     Promise promise;
+    // Context context;
 
     public ReactNativeSarawakpayModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        mFactory = SarawakPay.createFactory(this.reactContext);
+        // mContext = context;
+
 //        String targetPackName = this.mIPayAidlInterface.getTargetPackName();
 //        Log.d("pkgName", targetPackName);
     }
@@ -58,7 +60,8 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     //     intent.putExtra("payFlag", "sharePay");
     //     intent.putExtra("pkgName", this.reactContext.getPackageName());
     //     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    //     this.reactContext.startActivity(intent);
+    //     // this.reactContext.startActivity(intent);
+    //     getReactApplicationContext().startActivity(intent);
     // }
 
     @ReactMethod
@@ -69,8 +72,11 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
 
     @ReactMethod
     public void sendRequest(String data) {
-
-        mFactory.sendReq(data, this);
+        // if (this.mIPayAidlInterface != null && this.mIsBind) {
+        //     Log.d("pkgName", "Not working" );
+        // }
+        mFactory = SarawakPay.createFactory(this.reactContext);
+        mFactory.sendReq(data, ReactNativeSarawakpayModule.this);
         Log.d("pkgName", "Cannot resolve info for" + data);
         String packageName = this.reactContext.getPackageName();
         Log.d("pkgName", "Cannot resolve info for" + packageName);
