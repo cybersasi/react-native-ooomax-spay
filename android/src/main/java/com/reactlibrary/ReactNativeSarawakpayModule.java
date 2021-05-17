@@ -1,18 +1,16 @@
 package com.reactlibrary;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
+
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+
 import sharepay.paylibrary.BaseCallbackBean;
 import sharepay.paylibrary.SarawakAPI;
 import sharepay.paylibrary.SarawakPay;
-
-
-
+import sharepay.paylibrary.SarawakPayCallback;
 
 
 public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule implements SarawakPayCallback  {
@@ -21,13 +19,10 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     private SarawakAPI mFactory;
 
     Promise promise;
-    Activity mActivity;
 
-    public ReactNativeSarawakpayModule(ReactApplicationContext reactContext, Activity mActivity) {
+    public ReactNativeSarawakpayModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        this.mActivity = mActivity;
-        mFactory = SarawakPay.createFactory(mActivity);
     }
 
     @Override
@@ -43,23 +38,23 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
 
     @ReactMethod
     public void sendRequest(String data) {
-        // final Activity activity = getCurrentActivity();
-        // mFactory = SarawakPay.createFactory(activity);
-        mFactory.sendReq(data, ReactNativeSarawakpayModule.this);
+
+        mFactory = SarawakPay.createFactory(reactContext.getCurrentActivity());
+        mFactory.sendReq(data, this);
         Log.d("pkgName", "Cannot resolve info for" + data);
-        String packageName = mActivity.getPackageName();
+        String packageName = reactContext.getPackageName();
         Log.d("pkgName", "Cannot resolve info for" + packageName);
     }
 
     @ReactMethod
-	public void isPackageInstalled(String packageName, final Promise promise) {
-		Intent sendIntent = this.reactContext.getPackageManager().getLaunchIntentForPackage(packageName);
-		if (sendIntent == null) {
-			promise.resolve(false);
-			return;
-		}
-		promise.resolve(true);
-	}
-    
+    public void isPackageInstalled(String packageName, final Promise promise) {
+        Intent sendIntent = this.reactContext.getPackageManager().getLaunchIntentForPackage(packageName);
+        if (sendIntent == null) {
+            promise.resolve(false);
+            return;
+        }
+        promise.resolve(true);
+    }
+
 
 }
