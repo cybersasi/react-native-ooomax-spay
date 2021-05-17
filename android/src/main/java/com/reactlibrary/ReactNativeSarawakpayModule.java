@@ -2,7 +2,6 @@ package com.reactlibrary;
 
 import android.util.Log;
 import android.content.Intent;
-
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -17,14 +16,14 @@ import sharepay.paylibrary.SarawakPayCallback;
 public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule implements SarawakPayCallback  {
 
     private final ReactApplicationContext reactContext;
-    private SarawakAPI mFactory;
+    
 
     Promise promise;
 
     public ReactNativeSarawakpayModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        mFactory = SarawakPay.createFactory(reactContext.getApplicationContext());
+
     }
 
     @Override
@@ -40,6 +39,8 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
 
     @ReactMethod
     public void sendRequest(String data) {
+        SarawakAPI mFactory;
+        mFactory = SarawakPay.createFactory(reactContext.getCurrentActivity());
         mFactory.sendReq(data, this);
         Log.d("pkgName", "Cannot resolve info for" + data);
         String packageName = reactContext.getPackageName();
@@ -48,7 +49,7 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
 
     @ReactMethod
     public void isPackageInstalled(String packageName, final Promise promise) {
-        Intent sendIntent = this.reactContext.getPackageManager().getLaunchIntentForPackage(packageName);
+        Intent sendIntent = reactContext.getPackageManager().getLaunchIntentForPackage(packageName);
         if (sendIntent == null) {
             promise.resolve(false);
             return;
