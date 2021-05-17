@@ -1,26 +1,30 @@
 package com.reactlibrary;
 
+package com.reactlibrary;
+
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.content.Intent;
-import android.util.Log;
-import com.facebook.react.bridge.Promise;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import my.gov.sarawak.paybills.IPayAidlInterface;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
+
 import sharepay.paylibrary.BaseCallbackBean;
 import sharepay.paylibrary.SarawakAPI;
+import sharepay.paylibrary.SarawakPay;
+import sharepay.paylibrary.SarawakPayCallback;
 
-
-
-
+import android.util.Log;
 
 
 public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule implements SarawakPayCallback  {
 
     private final ReactApplicationContext reactContext;
     private SarawakAPI mFactory;
-    private IPayAidlInterface mIPayAidlInterface;
+
     Promise promise;
     Activity mActivity;
 
