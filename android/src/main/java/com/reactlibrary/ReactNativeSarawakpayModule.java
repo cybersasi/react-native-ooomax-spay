@@ -1,6 +1,7 @@
 package com.reactlibrary;
 
 import android.util.Log;
+import android.content.Intent;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
