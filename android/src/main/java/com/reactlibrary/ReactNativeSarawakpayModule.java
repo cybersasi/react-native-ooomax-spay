@@ -24,6 +24,7 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     public ReactNativeSarawakpayModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+        mFactory = SarawakPay.createFactory(reactContext.getApplicationContext());
     }
 
     @Override
@@ -39,8 +40,6 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
 
     @ReactMethod
     public void sendRequest(String data) {
-
-        mFactory = SarawakPay.createFactory(reactContext.getCurrentActivity());
         mFactory.sendReq(data, this);
         Log.d("pkgName", "Cannot resolve info for" + data);
         String packageName = reactContext.getPackageName();
