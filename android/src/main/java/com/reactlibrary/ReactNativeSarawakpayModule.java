@@ -1,25 +1,20 @@
 package com.reactlibrary;
 
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.content.Intent;
-
+import android.util.Log;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.Promise;
-
-
+import my.gov.sarawak.paybills.IPayAidlInterface;
 import sharepay.paylibrary.BaseCallbackBean;
 import sharepay.paylibrary.SarawakAPI;
-import sharepay.paylibrary.SarawakPay;
-import sharepay.paylibrary.SarawakPayCallback;
 
-import my.gov.sarawak.paybills.IPayAidlInterface;
-import my.gov.sarawak.paybills.IPayAidlInterface.Stub;
 
-import android.util.Log;
+
+
+
 
 public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule implements SarawakPayCallback  {
 
@@ -27,12 +22,13 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     private SarawakAPI mFactory;
     private IPayAidlInterface mIPayAidlInterface;
     Promise promise;
-    // Context context;
+    Activity mActivity;
 
-    public ReactNativeSarawakpayModule(ReactApplicationContext reactContext) {
+    public ReactNativeSarawakpayModule(ReactApplicationContext reactContext, Activity mActivity) {
         super(reactContext);
         this.reactContext = reactContext;
-
+        this.mActivity = mActivity;
+        mFactory = SarawakPay.createFactory(mActivity);
     }
 
     @Override
@@ -48,11 +44,11 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
 
     @ReactMethod
     public void sendRequest(String data) {
-        final Activity activity = getCurrentActivity();
-        mFactory = SarawakPay.createFactory(activity);
+        // final Activity activity = getCurrentActivity();
+        // mFactory = SarawakPay.createFactory(activity);
         mFactory.sendReq(data, ReactNativeSarawakpayModule.this);
         Log.d("pkgName", "Cannot resolve info for" + data);
-        String packageName = activity.getPackageName();
+        String packageName = mActivity.getPackageName();
         Log.d("pkgName", "Cannot resolve info for" + packageName);
     }
 
