@@ -1,7 +1,6 @@
-// ReactNativeSarawakpayModule.java
-
 package com.reactlibrary;
 
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.Intent;
 
@@ -33,10 +32,7 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     public ReactNativeSarawakpayModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        // mContext = context;
 
-//        String targetPackName = this.mIPayAidlInterface.getTargetPackName();
-//        Log.d("pkgName", targetPackName);
     }
 
     @Override
@@ -50,35 +46,13 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
         baseCallbackBean.getFlag();
     }
 
-
-
-    // @ReactMethod
-    // public void sendRequest(String orderInfo) {
-    //     Intent intent;
-    //     intent = new Intent("my.gov.sarawak.paybills.login.InitActivity");
-    //     intent.putExtra("orderInfo", orderInfo);
-    //     intent.putExtra("payFlag", "sharePay");
-    //     intent.putExtra("pkgName", this.reactContext.getPackageName());
-    //     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    //     // this.reactContext.startActivity(intent);
-    //     getReactApplicationContext().startActivity(intent);
-    // }
-
-    @ReactMethod
-    public void sampleMethod(String stringArgument, int numberArgument, Callback callback) {
-        // TODO: Implement some actually useful functionality
-        callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
-    }
-
     @ReactMethod
     public void sendRequest(String data) {
-        // if (this.mIPayAidlInterface != null && this.mIsBind) {
-        //     Log.d("pkgName", "Not working" );
-        // }
-        mFactory = SarawakPay.createFactory(this.reactContext);
+        final Activity activity = getCurrentActivity();
+        mFactory = SarawakPay.createFactory(activity);
         mFactory.sendReq(data, ReactNativeSarawakpayModule.this);
         Log.d("pkgName", "Cannot resolve info for" + data);
-        String packageName = this.reactContext.getPackageName();
+        String packageName = activity.getPackageName();
         Log.d("pkgName", "Cannot resolve info for" + packageName);
     }
 
