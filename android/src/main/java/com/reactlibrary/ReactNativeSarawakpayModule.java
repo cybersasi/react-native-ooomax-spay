@@ -13,10 +13,58 @@ import sharepay.paylibrary.SarawakPay;
 import sharepay.paylibrary.SarawakPayCallback;
 
 
+// public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule implements SarawakPayCallback  {
+
+//     private final ReactApplicationContext reactContext;
+//     SarawakAPI mFactory;
+
+//     Promise promise;
+
+//     public ReactNativeSarawakpayModule(ReactApplicationContext reactContext) {
+//         super(reactContext);
+//         this.reactContext = reactContext;
+
+// 		mFactory = SarawakPay.createFactory(getCurrentActivity());
+//     }
+
+//     @Override
+//     public String getName() {
+//         return "ReactNativeSarawakpay";
+//     }
+
+//     @Override
+//     public void payResult(BaseCallbackBean baseCallbackBean) {
+//         //其中baseCallbackBean封装了相应的请求信息
+//         baseCallbackBean.getFlag();
+//     }
+
+//     @ReactMethod
+//     public void sendRequest(String data) {
+//         // mFactory = SarawakPay.createFactory(getCurrentActivity());
+//         mFactory = SarawakPay.createFactory(reactContext.getCurrentActivity());
+//         mFactory.sendReq(data, this);
+//         Log.d("pkgName", "Cannot resolve info for" + data);
+//         String packageName = reactContext.getPackageName();
+//         Log.d("pkgName", "Cannot resolve info for" + packageName);
+//     }
+
+//     @ReactMethod
+//     public void isPackageInstalled(String packageName, final Promise promise) {
+//         Intent sendIntent = reactContext.getPackageManager().getLaunchIntentForPackage(packageName);
+//         if (sendIntent == null) {
+//             promise.resolve(false);
+//             return;
+//         }
+//         promise.resolve(true);
+//     }
+
+
+// }
+
 public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule implements SarawakPayCallback  {
 
     private final ReactApplicationContext reactContext;
-    
+    private SarawakAPI mFactory;
 
     Promise promise;
 
@@ -24,6 +72,7 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
         super(reactContext);
         this.reactContext = reactContext;
 
+		
     }
 
     @Override
@@ -39,7 +88,6 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
 
     @ReactMethod
     public void sendRequest(String data) {
-        SarawakAPI mFactory;
         mFactory = SarawakPay.createFactory(getCurrentActivity());
         mFactory.sendReq(data, this);
         Log.d("pkgName", "Cannot resolve info for" + data);
