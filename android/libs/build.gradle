@@ -1,0 +1,2 @@
+configurations.mayneCreate("default")
+artifacts.add("default", file('paylibrary-release.aar'))
