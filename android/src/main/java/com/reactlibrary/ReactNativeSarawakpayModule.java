@@ -40,13 +40,12 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     @ReactMethod
     public void sendRequest(String data) {
         final Activity currentActivity = getCurrentActivity();
-
         mFactory = SarawakPay.createFactory(currentActivity);
+
         mFactory.sendReq(data, this);
         Log.d("spay", "Cannot resolve info for" + data);
         String packageName = reactContext.getPackageName();
         Log.d("pkgName", "Cannot resolve info for" + packageName);
-        return;
     }
 
 
