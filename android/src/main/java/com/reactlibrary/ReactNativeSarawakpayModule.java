@@ -23,6 +23,7 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     public ReactNativeSarawakpayModule(ReactApplicationContext context) {
         super(context);
         reactContext = context;
+        mFactory = SarawakPay.createFactory(context);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     @ReactMethod
     public void sendRequest(String data) {
         final Activity currentActivity = getCurrentActivity();
-        mFactory = SarawakPay.createFactory(currentActivity);
+        // mFactory = SarawakPay.createFactory(currentActivity);
 
         mFactory.sendReq(data, this);
         Log.d("spay", "Cannot resolve info for" + data);
