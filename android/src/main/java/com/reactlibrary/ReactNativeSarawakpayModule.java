@@ -10,12 +10,16 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReactContext;
 
+import com.facebook.react.bridge.LifecycleEventListener;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.NativeModule;
+
 import sharepay.paylibrary.BaseCallbackBean;
 import sharepay.paylibrary.SarawakAPI;
 import sharepay.paylibrary.SarawakPay;
 import sharepay.paylibrary.SarawakPayCallback;
 
-public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule implements SarawakPayCallback  {
+public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule implements SarawakPayCallback, LifecycleEventListener  {
     private ReactContext reactContext;
     private SarawakAPI mFactory;
     Promise promise;
@@ -23,7 +27,7 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
     public ReactNativeSarawakpayModule(ReactApplicationContext context) {
         super(context);
         reactContext = context;
-        mFactory = SarawakPay.createFactory(context);
+        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
@@ -40,7 +44,7 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
 
     @ReactMethod
     public void sendRequest(String data) {
-        final Activity currentActivity = getCurrentActivity();
+        // final Activity currentActivity = getCurrentActivity();
         // mFactory = SarawakPay.createFactory(currentActivity);
 
         mFactory.sendReq(data, this);
@@ -58,6 +62,23 @@ public class ReactNativeSarawakpayModule extends ReactContextBaseJavaModule impl
             return;
         }
         promise.resolve(true);
+    }
+
+    @Override
+    public void onHostResume() {
+       if (mFactory == null) {
+           mFactory = SarawakPay.createFactory(this.getCurrentActivity());
+       }
+    }
+    @Override
+    public void onHostPause() {
+       // Activity `onPause`
+    }
+    @Override
+    public void onHostDestroy() {
+       if (mFactory != null) {
+           mFactory.onDestroy();
+       }
     }
 }
 
